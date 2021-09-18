@@ -1,10 +1,5 @@
+
 const employeePrompts = (role) => [
-    {
-        type: 'list',
-        name: 'role',
-        message: 'Please select which type of team member to add',
-        choices: ['Engineer', 'Intern']
-    },
     {
         type: 'input',
         name: 'name',
@@ -36,7 +31,7 @@ const employeePrompts = (role) => [
         name: 'email',
         message: `Please enter the ${role}'s email.`,
         validate: employeeEmail => {
-            valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+            valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(employeeEmail)
             if (employeeEmail) {
                 return true;
             } else {
@@ -96,7 +91,28 @@ const internPrompts = [
     },
 ]; 
 
+const menuPrompts = {
+    addEmployee: [
+        {
+            type: 'confirm',
+            name: 'isAddEmployee',
+            message: 'Would you like to add an employee? No to exit',
+            default: true
+        }
+    ],
+    chooseRole: [
+        {
+            type: 'list',
+            name: 'role',
+            message: 'Please select which type of team member to add',
+            choices: ['Engineer', 'Intern']
+        }
+    ]
+}
+    
+
 module.exports = {
+    menuPrompts,
     engineerPrompts,
     internPrompts,
     managerPrompts
