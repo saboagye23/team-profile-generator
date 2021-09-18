@@ -1,10 +1,13 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
 const InputPrompts = require('./src/InputPrompts');
+const generateHTML = require('./src/generateHTML')
+
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-const teamList = []
+const teamList = [];
 
 
 const addMannager = () => {
@@ -77,10 +80,26 @@ const addMenu = () => {
     })
 }
 
+const writeFile = data => {
+    fs.writeFile('./dist/index.html', data, err => { 
+        if (err) {
+            console.log(err);
+            return; 
+        } else {
+            console.log("Your team profile has been successfully created! Please check out the dist/index.html")
+        }
+    })
+}; 
+
+
 addMannager()
     .then(addMenu)
     .then(teamList => {
-        console.log(teamList);
-    }).catch(err =>{
+        return generateHTML(teamList);
+    })
+    .then(pageHTML =>{
+        writeFile(pageHTML);
+    })
+    .catch(err =>{
         console.error(err);
     });
